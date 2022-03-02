@@ -14,7 +14,7 @@ spec:
       labels: {{ include "spilo.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ template "spilo.serviceAccountName" . }}
-      terminationGracePeriodSeconds: 3600
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"

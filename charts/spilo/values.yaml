@@ -100,3 +100,5 @@ probes:
     enabled: false
   readiness:
     enabled: true
+
+terminationGracePeriodSeconds: 30
