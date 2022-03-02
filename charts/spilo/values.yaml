@@ -4,7 +4,8 @@ image:
   # Image was built from
   # https://github.com/zalando/spilo
   repository: registry.opensource.zalan.do/acid/spilo-14
-  tag: 2.1-p3
+  # defaults to the chart appVersion
+  tag: ~
   pullPolicy: IfNotPresent
 
 # Credentials used by Patroni
