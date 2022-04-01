@@ -65,6 +65,21 @@ spec:
         {{- if eq .Values.continuousArchive.storage "s3"}}
         - name: WAL_S3_BUCKET
           value: {{ .Values.walE.s3Bucket | quote }}
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom: 
+            secretKeyRef: 
+              name: {{ .Values.continuousArchive.s3.secretName }}
+              key: {{ .Values.continuousArchive.s3.awsAccessKeyIdName }}
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom: 
+            secretKeyRef: 
+              name: {{ .Values.continuousArchive.s3.secretName }}
+              key: {{ .Values.continuousArchive.s3.awsSecretAccessKeyName }}
+        - name: AWS_ENDPOINT
+          valueFrom: 
+            secretKeyRef: 
+              name: {{ .Values.continuousArchive.s3.secretName }}
+              key: {{ .Values.continuousArchive.s3.awsEndpointName }}
         {{- end }}
         {{- if eq .Values.continuousArchive.storage "gcs"}}
         - name: WAL_GS_BUCKET
