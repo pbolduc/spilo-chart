@@ -64,7 +64,7 @@ spec:
         {{- end }}
         {{- if eq .Values.continuousArchive.storage "s3"}}
         - name: WAL_S3_BUCKET
-          value: {{ .Values.walE.s3Bucket | quote }}
+          value: {{ .Values.continuousArchive.s3.bucket | quote }}
         - name: AWS_ACCESS_KEY_ID
           valueFrom: 
             secretKeyRef: 
@@ -166,11 +166,11 @@ spec:
             scheme: HTTP
             path: /readiness
             port: 8008
-          initialDelaySeconds: 3
+          initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
-          failureThreshold: 3
+          failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
         {{- end }}
       affinity:
         # Make sure we don't schedule multiple pods on the same node
