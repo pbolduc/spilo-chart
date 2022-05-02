@@ -69,4 +69,4 @@ By default, this chart will create an `<instanceName>-archive` PVC using the `ne
 
 **Restore**
 
-Please refer to [here](docs/restore.md)
+The restore process is included [here](docs/restore.md)
