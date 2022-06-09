@@ -23,18 +23,33 @@ spec:
         - name: PGPASSWORD_SUPERUSER
           valueFrom:
             secretKeyRef:
+              {{- if .Values.credentials.useExistingSecret }}
+              name: {{ .Values.credentials.existingSecret.name }}
+              key: {{ .Values.credentials.existingSecret.superuserKey }}
+              {{- else }}
               name: {{ template "spilo.fullname" . }}
               key: password-superuser
+              {{- end }}
         - name: PGPASSWORD_ADMIN
           valueFrom:
             secretKeyRef:
+              {{- if .Values.credentials.useExistingSecret }}
+              name: {{ .Values.credentials.existingSecret.name }}
+              key: {{ .Values.credentials.existingSecret.adminKey }}              
+              {{- else }}
               name: {{ template "spilo.fullname" . }}
               key: password-admin
+              {{- end }}              
         - name: PGPASSWORD_STANDBY
           valueFrom:
             secretKeyRef:
+              {{- if .Values.credentials.useExistingSecret }}
+              name: {{ .Values.credentials.existingSecret.name }}
+              key: {{ .Values.credentials.existingSecret.standbyKey }}   
+              {{- else }}
               name: {{ template "spilo.fullname" . }}
-              key: password-standby
+              key: password-standby                 
+              {{- end }}     
         - name: DCS_ENABLE_KUBERNETES_API
           value: "true"
         - name: KUBERNETES_LABELS
@@ -64,7 +79,22 @@ spec:
         {{- end }}
         {{- if eq .Values.continuousArchive.storage "s3"}}
         - name: WAL_S3_BUCKET
-          value: {{ .Values.walE.s3Bucket | quote }}
+          value: {{ .Values.continuousArchive.s3.bucket | quote }}
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom: 
+            secretKeyRef: 
+              name: {{ .Values.continuousArchive.s3.secretName }}
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom: 
+            secretKeyRef: 
+              name: {{ .Values.continuousArchive.s3.secretName }}
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_ENDPOINT
+          valueFrom: 
+            secretKeyRef: 
+              name: {{ .Values.continuousArchive.s3.secretName }}
+              key: AWS_ENDPOINT
         {{- end }}
         {{- if eq .Values.continuousArchive.storage "gcs"}}
         - name: WAL_GS_BUCKET
@@ -151,11 +181,11 @@ spec:
             scheme: HTTP
             path: /readiness
             port: 8008
-          initialDelaySeconds: 3
+          initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
-          failureThreshold: 3
+          failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
         {{- end }}
       affinity:
         # Make sure we don't schedule multiple pods on the same node
@@ -169,7 +199,11 @@ spec:
       volumes:
       - name: spilo-config
         secret:
+          {{- if .Values.credentials.useExistingSecret }}
+          secretName: {{ .Values.credentials.existingSecret.name }}        
+          {{- else }}
           secretName: {{ template "spilo.fullname" . }}
+          {{- end }}
       {{- if .Values.continuousArchive.enabled }}
       {{- if .Values.continuousArchive.gcs.kubernetesSecret }}
       - name: archive-gcs-credentials

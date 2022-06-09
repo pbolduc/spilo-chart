@@ -66,3 +66,7 @@ When updating the `PGVERSION`, Spilo will not automatically upgrade your cluster
 **Continuous Archiving**
 
 By default, this chart will create an `<instanceName>-archive` PVC using the `netapp-file-backup` storage class, and create daily base backups to in this PVC, using `wal-g`. It also uses continuous archiving of WAL files, allowing you to restore to a specific point in time between base backups (see the [PostgreSQL documentation](https://www.postgresql.org/docs/14/continuous-archiving.html) for more information)
+
+**Restore**
+
+The restore process is included [here](docs/restore.md)

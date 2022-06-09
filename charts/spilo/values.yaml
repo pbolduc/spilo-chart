@@ -48,9 +48,15 @@ continuousArchive:
     storageClass: netapp-file-backup
     size: 500Mi
 
+  # If choose s3 as the storage type, the secret has to be created first. 
+  # It contains three key/value pairs:
+  #   AWS_ACCESS_KEY_ID
+  #   AWS_SECRET_ACCESS_KEY
+  #   AWS_ENDPOINT
   s3:
     bucket: ~
     secretName: ~
+
   gcs:
     bucket: ~
     # The GCS  bucket folder where the logs will be updated
@@ -100,5 +106,7 @@ probes:
     enabled: false
   readiness:
     enabled: true
+    initialDelaySeconds: 60
+    failureThreshold: 10
 
 terminationGracePeriodSeconds: 30
