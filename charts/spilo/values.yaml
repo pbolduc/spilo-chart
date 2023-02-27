@@ -36,6 +36,7 @@ env: {}
 continuousArchive:
   # Specifies whether continuous archiving with wal-g should be enabled
   enabled: true
+  keep: true
   # Cron schedule for doing base backups
   scheduleCronJob: 00 01 * * *
   # Amount of base backups to retain
