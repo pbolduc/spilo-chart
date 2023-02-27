@@ -2,7 +2,7 @@
 
 A Reusable [Helm](https://helm.sh/) chart for [Spilo](https://github.com/zalando/spilo) (Highly-Available PostgreSQL database with Patroni), with a default configuration adapted to deployment on the BC Government's OpenShift cluster.
 
-By default, deploys a PostgreSQL cluster with continuous archiving in a `netapp-file-backup` PVC using [wal-g](https://wal-g.readthedocs.io/), enabling [point-in-time recovery](https://www.postgresql.org/docs/14/continuous-archiving.html).
+By default, deploys a PostgreSQL cluster with continuous archiving in a `netapp-file-backup` PVC using [wal-g](https://wal-g.readthedocs.io/), enabling [point-in-time recovery](https://www.postgresql.org/docs/15/continuous-archiving.html).
 
 ## Installation
 
@@ -13,7 +13,7 @@ By default, deploys a PostgreSQL cluster with continuous archiving in a `netapp-
 ```yaml
 dependencies:
   - name: spilo
-    version: 0.1.0
+    version: 0.3.0
     repository: https://bcgov.github.io/spilo-chart
     # by default, the object created will be named <your-app>-spilo. You can use an alias to override the -spilo suffix
     alias: postgres
@@ -32,7 +32,7 @@ Once the repo is added, you can check the available charts with:
 ```
 $ helm search repo spilo-chart
 NAME                CHART VERSION   APP VERSION   DESCRIPTION
-spilo-chart/spilo   0.1.0           2.1-p4        Highly available elephant herd: HA PostgreSQL c...
+spilo-chart/spilo   0.3.0           2.1-p9        Highly available elephant herd: HA PostgreSQL c...
 ```
 
 Then, install an instance of the chart with:
@@ -57,7 +57,7 @@ This chart creates two services, allowing to access the leader (read/write conne
 
 **PostgreSQL Version**
 
-The `PGVERSION` environment variable, set by the `postgresMajorVersion` value (defaults to `14`), defines which version of PostgreSQL Spilo will use. The following versions are supported: `9.6`, `10`, `11`, `12`, `13`, `14`.
+The `PGVERSION` environment variable, set by the `postgresMajorVersion` value (defaults to `15`), defines which version of PostgreSQL Spilo will use. The following versions are supported:  `10`, `11`, `12`, `13`, `14`, `15`.
 
 **PostgreSQL Major Upgrade**
 
@@ -65,7 +65,7 @@ When updating the `PGVERSION`, Spilo will not automatically upgrade your cluster
 
 **Continuous Archiving**
 
-By default, this chart will create an `<instanceName>-archive` PVC using the `netapp-file-backup` storage class, and create daily base backups to in this PVC, using `wal-g`. It also uses continuous archiving of WAL files, allowing you to restore to a specific point in time between base backups (see the [PostgreSQL documentation](https://www.postgresql.org/docs/14/continuous-archiving.html) for more information)
+By default, this chart will create an `<instanceName>-archive` PVC using the `netapp-file-backup` storage class, and create daily base backups to in this PVC, using `wal-g`. It also uses continuous archiving of WAL files, allowing you to restore to a specific point in time between base backups (see the [PostgreSQL documentation](https://www.postgresql.org/docs/15/continuous-archiving.html) for more information)
 
 **Restore**
 
