@@ -90,6 +90,7 @@ rbac:
   create: true
 
 serviceAccount:
+  create: false
   name: ~
 
 networkPolicy:
@@ -100,7 +101,7 @@ podDisruptionBudget:
   minAvailable: ~
   maxUnavailable: 1
 
-postgresMajorVersion: 14
+postgresMajorVersion: 15
 
 probes:
   liveness:
