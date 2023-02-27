@@ -104,10 +104,18 @@ postgresMajorVersion: 14
 
 probes:
   liveness:
-    enabled: false
+    enabled: true
+    initialDelaySeconds: 3
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
   readiness:
     enabled: true
     initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
     failureThreshold: 10
 
 terminationGracePeriodSeconds: 30

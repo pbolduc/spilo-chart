@@ -175,11 +175,11 @@ spec:
             scheme: HTTP
             path: /liveness
             port: 8008
-          initialDelaySeconds: 3
-          periodSeconds: 10
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 3
+          initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+          timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
+          successThreshold: {{ .Values.probes.liveness.successThreshold }}
+          failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
         {{- end }}
         {{- if .Values.probes.readiness.enabled }}
         readinessProbe:
@@ -188,9 +188,9 @@ spec:
             path: /readiness
             port: 8008
           initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
-          periodSeconds: 10
-          timeoutSeconds: 5
-          successThreshold: 1
+          periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+          timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
+          successThreshold: {{ .Values.probes.readiness.successThreshold }}
           failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
         {{- end }}
       affinity:
