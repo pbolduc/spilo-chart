@@ -3,7 +3,7 @@ replicaCount: 3
 image:
   # Image was built from
   # https://github.com/zalando/spilo
-  repository: registry.opensource.zalan.do/acid/spilo-14
+  repository: ghcr.io/zalando/spilo-15
   # defaults to the chart appVersion
   tag: ~
   pullPolicy: IfNotPresent
