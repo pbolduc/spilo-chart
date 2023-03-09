@@ -13,6 +13,15 @@ spec:
       name: {{ template "spilo.fullname" . }}
       labels: {{ include "spilo.labels" . | nindent 8 }}
     spec:
+      {{- if eq .Values.continuousArchive.storage "pvc"}}
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ['sh', '-c', 'chmod -R g+rwX /home/postgres/archive']
+        volumeMounts:
+          - mountPath: /home/postgres/archive
+            name: archive-volume
+      {{- end }}
       {{- if .Values.podSecurityContext.enabled }}
       securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
       {{- end }}

@@ -46,7 +46,7 @@ continuousArchive:
   # https://github.com/wal-g/wal-g/blob/master/docs/STORAGES.md
   storage: pvc
   pvc:
-    storageClass: netapp-file-backup
+    storageClass: "netapp-file-backup"
     size: 500Mi
 
   # If choose s3 as the storage type, the secret has to be created first. 
@@ -145,3 +145,6 @@ containerSecurityContext:
   capabilities:
     drop: 
     - "ALL"
+
+metrics:
+  enabled: false
